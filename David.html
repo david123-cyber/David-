@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Chat App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+    #nameInputSection, #chatSection {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+    #nameInputSection {
+      display: flex;
+    }
+    input, button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #chatBox {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: white;
+      overflow-y: auto;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .message {
+      margin: 5px 0;
+      padding: 8px;
+      background: #e1f5fe;
+      border-radius: 5px;
+    }
+    .user-message {
+      align-self: flex-end;
+      background: #c8e6c9;
+    }
+    #chatForm {
+      display: flex;
+      width: 100%;
+    }
+    #chatInput {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div id="nameInputSection">
+  <h1>Enter Your Name</h1>
+  <input type="text" id="userName" placeholder="Enter your name" />
+  <button id="startChat">Start Chat</button>
+</div>
+
+<div id="chatSection">
+  <h1>Welcome, <span id="displayName"></span>!</h1>
+  <div id="chatBox"></div>
+  <form id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type a message" required />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<script>
+  const nameInputSection = document.getElementById('nameInputSection');
+  const chatSection = document.getElementById('chatSection');
+  const userNameInput = document.getElementById('userName');
+  const startChatButton = document.getElementById('startChat');
+  const displayName = document.getElementById('displayName');
+  const chatBox = document.getElementById('chatBox');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+
+  let userName = '';
+
+  startChatButton.addEventListener('click', () => {
+    userName = userNameInput.value.trim();
+    if (userName) {
+      nameInputSection.style.display = 'none';
+      chatSection.style.display = 'flex';
+      displayName.textContent = userName;
+    } else {
+      alert('Please enter your name!');
+    }
+  });
+
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (message) {
+      const userMessage = document.createElement('div');
+      userMessage.textContent = `${userName}: ${message}`;
+      userMessage.classList.add('message', 'user-message');
+      chatBox.appendChild(userMessage);
+      chatInput.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  });
+</script>
+
+</body>
+</html>
